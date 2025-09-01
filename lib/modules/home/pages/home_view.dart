@@ -13,7 +13,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   List<CategoryData> categoriesDataList=[
-    CategoryData(id: id, title: title, image: image)
   ];
   @override
   Widget build(BuildContext context) {
