@@ -61,3 +61,10 @@ flutter:
    - assets/images/splashDarkImg.png
    - assets/images/splashScreenImg.png
    - assets/icons/searchIcn.png
+   - assets/images/categories/business.png
+   - assets/images/categories/entertainment.png
+   - assets/images/categories/general.png
+   - assets/images/categories/health.png
+   - assets/images/categories/science.png
+   - assets/images/categories/sports.png
+   - assets/images/categories/technology.png
