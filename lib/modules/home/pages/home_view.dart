@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:newsapp/core/constants/app_assets.dart';
 import 'package:newsapp/core/theme_manager/color_pallate.dart';
 import 'package:newsapp/models/category_data.dart';
+import 'package:newsapp/modules/home/pages/myDrawerView.dart';
 import 'package:newsapp/modules/home/widgets/category_card_item.dart';
 
 class HomeView extends StatefulWidget {
@@ -13,6 +14,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  CategoryData? selectedCategory;
   List<CategoryData> categoriesDataList = [
     CategoryData(id: "general", title: "General", image: AppAssets.general),
     CategoryData(id: "business", title: "Business", image: AppAssets.business),
@@ -20,16 +22,22 @@ class _HomeViewState extends State<HomeView> {
     CategoryData(id: "health", title: "Health", image: AppAssets.health),
     CategoryData(id: "science", title: "Science", image: AppAssets.science),
     CategoryData(
-      id: "entertainment",
-      title: "Entertainment",
-      image: AppAssets.entertainment,
-    ),
-    CategoryData(
       id: "technology",
       title: "Technology",
       image: AppAssets.technology,
     ),
+    CategoryData(
+      id: "entertainment",
+      title: "Entertainment",
+      image: AppAssets.entertainment,
+    ),
   ];
+
+  void onClickedCategory(CategoryData categoryData) {
+    setState(() {
+      selectedCategory = categoryData;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +51,16 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      drawer: Drawer(),
-      body: Padding(
+      drawer: MyDrawerView(
+        onGoToHome: (){
+          setState(() {
+            selectedCategory = null ;
+          });
+          Navigator.pop(context);
+        },
+      ),
+      body: selectedCategory == null
+          ? Padding(
         padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
         child: SingleChildScrollView(
           physics: ClampingScrollPhysics(),
@@ -59,23 +75,27 @@ class _HomeViewState extends State<HomeView> {
                   color: ColorPallete.generalTextColor,
                 ),
               ),
+              SizedBox(height: 20), // Added spacing for better visual hierarchy
               ListView.separated(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index){
+                itemBuilder: (context, index) {
                   return CategoryCardItem(
-                      index: index,
-                      categoryData: categoriesDataList[index]);
+                    index: index,
+                    onTap: onClickedCategory,
+                    categoryData: categoriesDataList[index],
+                  );
                 },
-                separatorBuilder: (context,index){
-                  return SizedBox(height: 15,);
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 15);
                 },
                 itemCount: categoriesDataList.length,
               ),
             ],
           ),
         ),
-      ),
+      )
+          : Text("Hello"), // You'll want to replace this with actual content
     );
   }
 }
